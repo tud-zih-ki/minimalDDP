@@ -1,3 +1,8 @@
+#!/bin/bash
+
+INSTALL_DIR=./scorep_GCC113
+mkdir -p $INSTALL_DIR
+
 module purge
 
 ml modenv/hiera 
