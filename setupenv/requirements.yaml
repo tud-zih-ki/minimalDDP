@@ -1,0 +1,12 @@
+h5py
+matplotlib
+metis
+mpi4py
+networkx
+pandas
+pyevtk
+python-hostlist
+pyyaml
+tensorboard
+#torch               # build from source
+#torch-scatter       # installed after build from source
