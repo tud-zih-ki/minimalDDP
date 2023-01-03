@@ -22,6 +22,6 @@ ml CUDA/11.7.0
 ml cuDNN/8.4.1.50-CUDA-11.7.0
 ml NCCL/2.12.12-CUDA-11.7.0
 ml Python/3.9.6-bare
-source /beegfs/.global0/ws/sekr289a-ML2-n/virtualenvs/py3.9.6_cu117_imkl_torch1.13/bin/activate
+source venv
 
-srun --distribution=plane=3 python3 -u ./src/main_MPIDatloader.py
+srun --distribution=plane=3 python3 -u MultiProcPerGPU_DPPMPI.py
