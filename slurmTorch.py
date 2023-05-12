@@ -14,6 +14,8 @@ local_rank = int(os.environ['SLURM_LOCALID'])
 size = int(os.environ['SLURM_NTASKS'])
 cpus_per_task = int(os.environ['SLURM_CPUS_PER_TASK'])
 local_nodeID = int(os.environ["SLURM_NODEID"])
+resv_ports = os.environ['SLURM_STEP_RESV_PORTS'].split("-")
+first_port = int(resv_ports[0])
 
 # get node list from slurm
 hostnames = hostlist.expand_hostlist(os.environ['SLURM_JOB_NODELIST'])
@@ -23,4 +25,4 @@ gpu_ids = os.environ['SLURM_STEP_GPUS'].split(",")
     
 # define MASTER_ADD & MASTER_PORT
 os.environ['MASTER_ADDR'] = hostnames[0]
-os.environ['MASTER_PORT'] = str(12345 + int(min(gpu_ids))) # to avoid port conflict on the same node
+os.environ['MASTER_PORT'] = str(first_port + rank) # to avoid port conflict on the same node
