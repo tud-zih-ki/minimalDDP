@@ -21,7 +21,7 @@ if __name__ == '__main__':
     gpu_ids = os.environ['SLURM_STEP_GPUS'].split(",")
 
     os.environ['MASTER_ADDR'] = hostnames[0]
-    os.environ['MASTER_PORT'] = str(os.environ['SLURM_STEP_RESV_PORTS'].split("-")[0])
+    os.environ['MASTER_PORT'] = str(6512)
 
     # assert len(gpu_ids) == 1
     gpu_id = int(gpu_ids[0])
