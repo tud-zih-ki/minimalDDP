@@ -14,15 +14,16 @@ local_rank = int(os.environ['SLURM_LOCALID'])
 size = int(os.environ['SLURM_NTASKS'])
 cpus_per_task = int(os.environ['SLURM_CPUS_PER_TASK'])
 local_nodeID = int(os.environ["SLURM_NODEID"])
-resv_ports = os.environ['SLURM_STEP_RESV_PORTS'].split("-")
-first_port = int(resv_ports[0])
 
 # get node list from slurm
 hostnames = hostlist.expand_hostlist(os.environ['SLURM_JOB_NODELIST'])
     
-# get IDs of reserved GPU
-gpu_ids = os.environ['SLURM_STEP_GPUS'].split(",")
-    
-# define MASTER_ADD & MASTER_PORT
-os.environ['MASTER_ADDR'] = hostnames[0]
-os.environ['MASTER_PORT'] = str(first_port + rank) # to avoid port conflict on the same node
+try:
+    # slurm reserves one port per job
+    resv_ports = os.environ['SLURM_STEP_RESV_PORTS'].split("-")
+    os.environ['MASTER_PORT'] = str(resv_ports[-1])
+    os.environ['MASTER_ADDR'] = hostnames[0]
+except KeyError:
+    print(f'WARNING from slurmTorch.py: Use Fallback MASTER_ADDR and MASTER_PORT')
+    os.environ["MASTER_ADDR"] = "127.0.0.1"
+    os.environ["MASTER_PORT"] = "29500"
