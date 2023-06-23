@@ -19,8 +19,6 @@ local_nodeID = int(os.environ["SLURM_NODEID"])
 hostnames = hostlist.expand_hostlist(os.environ['SLURM_JOB_NODELIST'])
     
 # get IDs of reserved GPU
-gpu_ids = os.environ['SLURM_STEP_GPUS'].split(",")
-    
-# define MASTER_ADD & MASTER_PORT
 os.environ['MASTER_ADDR'] = hostnames[0]
-os.environ['MASTER_PORT'] = str(12345 + int(min(gpu_ids))) # to avoid port conflict on the same node
+resv_ports = os.environ['SLURM_STEP_RESV_PORTS'].split("-")
+os.environ['MASTER_PORT'] = str(resv_ports[0])
